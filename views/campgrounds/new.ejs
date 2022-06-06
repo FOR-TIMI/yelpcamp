@@ -3,7 +3,7 @@
 <div class="row">
 	<h1 class="text-center">New Campground</h1>
 	<div class="col-6 offset-3">
-		<form class="validated-form" action="/campgrounds" method="POST" novalidate>
+		<form class="validated-form" action="/campgrounds" method="POST" novalidate enctype="multipart/form-data">
 			<!-- Everything in the req.body will be stored under campground[] -->
 			<div class="mb-3">
 				<label class="form-label" for="title">Title: </label>
@@ -28,7 +28,8 @@
 				/>
 				<div class="valid-feedback">Looks good!</div>
 			</div>
-			<div class="mb-3">
+			<input type="file" name="image" id="" multiple>
+			<!-- <div class="mb-3">
 				<label class="form-label" for="image">Image Url: </label>
 				<input
 					class="form-control"
@@ -38,7 +39,7 @@
 					required
 				/>
 				<div class="valid-feedback">Looks good!</div>
-			</div>
+			</div> -->
 
 			<div class="mb-3">
 				<label for="basic-addon1" class="form-label">Campground Price</label>
