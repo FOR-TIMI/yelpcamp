@@ -3,13 +3,14 @@ if(process.env.NODE_ENV !== 'production'){
     require('dotenv').config();
 }
 
+
 const express = require("express");
 const path = require("path");
 const mongoose = require("mongoose");
 const methodOverride = require("method-override");
 const ejsMate = require("ejs-mate");
 const ExpressError = require("./utils/ExpressError");
-const session = require("express-session");
+
 const flash = require("connect-flash");
 const passport = require('passport');
 const passportLocal = require('passport-local')
@@ -17,16 +18,25 @@ const User = require('./models/user');
 const sanitizeMongo = require('express-mongo-sanitize')
 const helmet = require('helmet');
 
+const session = require("express-session");
+const MongoStore = require('connect-mongo');
+
 //Routes
 const campgroundRoutes = require("./routes/campgrounds");
 const reviewRoutes = require("./routes/reviews");
 const userRoutes = require('./routes/users');
 
+
+//url https://powerful-tundra-54624.herokuapp.com/
+
 //Connect to database
-mongoose.connect("mongodb://localhost:27017/yelp-camp", {
+const dbUrl = process.env.DB_URL || 'mongodb://localhost:27017/yelp-camp';
+
+mongoose.connect( dbUrl , {
 	useNewUrlParser: true,
 	useUnifiedTopology: true,
 });
+
 
 const db = mongoose.connection;
 db.on("error", console.error.bind(console, "connection error:"));
@@ -49,6 +59,8 @@ app.use(express.static(path.join(__dirname, "public")));
 
 //Sanitize url
 app.use(sanitizeMongo({replaceWith: '_'}))
+
+
 
 
 //helmet
@@ -100,10 +112,15 @@ app.use(
     })
 );
 
+const secret = process.env.SECRET || 'thisshouldbeabettersecret!';
 
 //session configuration
 const sessionConfig = {
-    secret: 'thisshouldbeabettersecret!',
+    store: MongoStore.create({
+        mongoUrl: dbUrl,
+        touchAfter: 24 * 3600 // = 14 days. Default
+      }),
+    secret,
     resave: false,
     saveUninitialized: true,
 	// secure: true,
