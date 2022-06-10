@@ -35,7 +35,7 @@
 
        
 
-		<% if(signedInUser) if(campground.creator.equals(signedInUser._id)){%> 
+		<% if(signedInUser && campground.creator.equals(signedInUser._id)){%> 
 		<div class="card-body">
 		  <a href="/campgrounds/<%=campground._id %>/edit " class="card-link btn btn-info">Edit</a>
 		  <form class="d-inline" action="/campgrounds/<%=campground._id %>?_method=DELETE" method="POST"">
@@ -53,8 +53,12 @@
 	
 	</div>
 	<div class="col-6">
+		<div id='map'></div>
+	<%if(signedInUser) { %>
+
+
 		
-		<h2>Leave a review</h2>
+		<h2 class="mt-3">Leave a review</h2>
 				<form action="/campgrounds/<%=campground._id %>/reviews " method="post" class="mb-3 validated-form" novalidate>
 					<div class="mb-1">
 					<fieldset class="starability-basic">
@@ -88,17 +92,29 @@
 	 <h5 class="card-title"><%= review.creator.username %></h5>
 	 <p class="starability-result" data-rating="<%= review.rating %>"></p>
 	 <p class="card-text">comment: <%= review.body %></p>
-	 <% if(signedInUser) if(review.creator.equals(signedInUser._id)){%> 
+	 <% if(signedInUser && review.creator.equals(signedInUser._id)){%> 
 	 <form action="/campgrounds/<%=campground._id %>/reviews/<%= review._id %>?_method=DELETE" method="post">
 		 <button class="btn btn-sm btn-danger">delete</button>
 	 </form>
 	 <% } %> 
 	 </div>
  </div>
+ 
 <% } %> 
+
+<% } %>  
 </div>
-	
 </div>
+<script>
+const mapBoxToken = '<%- process.env.MAPBOX_TOKEN  %>' ;
+const campground = <%- JSON.stringify(campground) %>
+
+</script>
+<script src="/js/detailsPageMap.js"></script>
+
+
+
+
 
 
 

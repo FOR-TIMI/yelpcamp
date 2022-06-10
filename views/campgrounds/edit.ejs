@@ -2,12 +2,13 @@
 
 <div class="row">
 	<h1 class="text-center">Edit Campground</h1>
-	<div class="col-6 offset-3">
+	<div class="col-md-6 offset-md-3">
 		<form
 			class="validated-form"
 			action="/campgrounds/<%=campground._id %>?_method=PUT"
 			method="POST"
 			novalidate
+			enctype="multipart/form-data"
 		>
 			<!-- Everything in the req.body will be stored under campground[] -->
 			<div class="mb-3">
@@ -31,18 +32,6 @@
 					type="text"
 					name="campground[location]"
 					value="<%= campground.location %> "
-					required
-				/>
-				<div class="valid-feedback">Looks good!</div>
-			</div>
-			<div class="mb-3">
-				<label class="form-label" for="image">Image Url: </label>
-				<input
-					class="form-control"
-					id="image"
-					type="text"
-					name="campground[image]"
-					value="<%= campground.image %> "
 					required
 				/>
 				<div class="valid-feedback">Looks good!</div>
@@ -79,7 +68,23 @@
 				>
 				<div class="valid-feedback">Looks good!</div>
 			</div>
-			<div class="mb-2">
+			<div class="mb-3">
+				<label for="image">Upload Image(s):</label>
+			<div class="custom-file">
+				<input type="file" name="image" multiple class="custom-file-input" id="image">
+				<label class="custom-file-label" for="image">Add Image(s)...</label>
+			  </div>
+			</div>
+			<div class="mb-3">
+				<% campground.images.forEach(function(img, i){ %>
+				 <img src="<%=img.thumbnail %> " class="img-thumbnail"  alt="">
+				 <div class="form-check-inline">
+					 <input type="checkbox" id="image-<%=i%>" name="deleteImages[]" value="<%=img.filename%>">
+				 </div>
+				 <label for="image-<%=i%> ">Delete?</label>
+					<% })%>  
+			</div>
+			<div class="mb-3">
 				<button class="btn btn-info" type="submit">Update Campground</button>
 			</div>
 		</form>

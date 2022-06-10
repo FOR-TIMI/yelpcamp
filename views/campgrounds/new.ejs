@@ -2,7 +2,7 @@
 
 <div class="row">
 	<h1 class="text-center">New Campground</h1>
-	<div class="col-6 offset-3">
+	<div class="col-md-6 offset-md-3">
 		<form class="validated-form" action="/campgrounds" method="POST" novalidate enctype="multipart/form-data">
 			<!-- Everything in the req.body will be stored under campground[] -->
 			<div class="mb-3">
@@ -28,7 +28,7 @@
 				/>
 				<div class="valid-feedback">Looks good!</div>
 			</div>
-			<input type="file" name="image" id="" multiple>
+		
 			<!-- <div class="mb-3">
 				<label class="form-label" for="image">Image Url: </label>
 				<input
@@ -70,10 +70,18 @@
 				</textarea>
 				<div class="valid-feedback">Looks good!</div>
 			</div>
-			<div class="mb-2">
+			<div class="mb-3">
+				<label for="image">Upload Image(s):</label>
+			<div class="custom-file">
+				<input type="file" name="image" multiple class="custom-file-input" id="image" required>
+				<label class="custom-file-label" for="image">Choose Image(s)...</label>
+			  </div>
+			</div>
+			<div class="mb-3">
 				<button class="btn btn-success" type="submit">Add Campground</button>
 			</div>
 		</form>
 		<a href="/campgrounds">All campgrounds</a>
 	</div>
+
 </div>

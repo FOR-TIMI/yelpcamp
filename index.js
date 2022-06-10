@@ -14,12 +14,15 @@ const flash = require("connect-flash");
 const passport = require('passport');
 const passportLocal = require('passport-local')
 const User = require('./models/user');
+const sanitizeMongo = require('express-mongo-sanitize')
+const helmet = require('helmet');
 
-
+//Routes
 const campgroundRoutes = require("./routes/campgrounds");
 const reviewRoutes = require("./routes/reviews");
 const userRoutes = require('./routes/users');
 
+//Connect to database
 mongoose.connect("mongodb://localhost:27017/yelp-camp", {
 	useNewUrlParser: true,
 	useUnifiedTopology: true,
@@ -34,6 +37,7 @@ db.once("open", () => {
 
 
 const app = express();
+
 app.engine("ejs", ejsMate);
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
@@ -43,11 +47,66 @@ app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride("_method"));
 app.use(express.static(path.join(__dirname, "public")));
 
+//Sanitize url
+app.use(sanitizeMongo({replaceWith: '_'}))
+
+
+//helmet
+// app.use(helmet())
+
+const scriptSrcUrls = [
+    "https://stackpath.bootstrapcdn.com/",
+    "https://api.tiles.mapbox.com/",
+    "https://api.mapbox.com/",
+    "https://kit.fontawesome.com/",
+    "https://cdnjs.cloudflare.com/",
+    "https://cdn.jsdelivr.net",
+    'https://cdn.jsdelivr.net/npm/'
+];
+const styleSrcUrls = [
+    "https://kit-free.fontawesome.com/",
+    "https://stackpath.bootstrapcdn.com/",
+    "https://api.mapbox.com/",
+    "https://api.tiles.mapbox.com/",
+    "https://fonts.googleapis.com/",
+    "https://use.fontawesome.com/",
+    'https://cdn.jsdelivr.net/npm/'
+];
+const connectSrcUrls = [
+    "https://api.mapbox.com/",
+    "https://a.tiles.mapbox.com/",
+    "https://b.tiles.mapbox.com/",
+    "https://events.mapbox.com/",
+];
+const fontSrcUrls = [];
+app.use(
+    helmet.contentSecurityPolicy({
+        directives: {
+            defaultSrc: [],
+            connectSrc: ["'self'", ...connectSrcUrls],
+            scriptSrc: ["'unsafe-inline'", "'self'", ...scriptSrcUrls],
+            styleSrc: ["'self'", "'unsafe-inline'", ...styleSrcUrls],
+            workerSrc: ["'self'", "blob:"],
+            objectSrc: [],
+            imgSrc: [
+                "'self'",
+                "blob:",
+                "data:",
+                "https://res.cloudinary.com/yelpcampprojectimages/", 
+                "https://images.unsplash.com/",
+            ],
+            fontSrc: ["'self'", ...fontSrcUrls],
+        },
+    })
+);
+
+
 //session configuration
 const sessionConfig = {
     secret: 'thisshouldbeabettersecret!',
     resave: false,
     saveUninitialized: true,
+	// secure: true,
     cookie: {
         httpOnly: true,
         expires: Date.now() + 1000 * 60 * 60 * 24 * 7,
@@ -69,7 +128,7 @@ passport.deserializeUser(User.deserializeUser());
 
 
 app.use((req, res, next) => {
-   if(!['/login','/'].includes(req.originalUrl)){
+   if(!['/login','/','/register'].includes(req.originalUrl)){
 	   req.session.returnTo = req.originalUrl;
    }
 	res.locals.signedInUser = req.user;
@@ -91,7 +150,6 @@ app.get("/", (req, res) => {
 
 app.all("*", (req, res, next) => {
 	next(new ExpressError("Page Not Found", 404));
-	res.send("404");
 });
 
 app.use((err, req, res, next) => {
