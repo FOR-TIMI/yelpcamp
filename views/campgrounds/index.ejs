@@ -1,8 +1,16 @@
 <% layout('layouts/boilerplate') %>
+<link rel="stylesheet" href="stylesheets/index.css">
 <div id="cluster-map"></div>
-<h1>All Campgrounds</h1>
-<a href="/campgrounds/new">Add Campground</a>
+<div class="container mt-3">
 
+<h1 class=" mb-2 text-center">Campgrounds</h1>
+
+<form class="d-flex mb-3 search" action="/campgrounds" >
+	<input class="form-control me-2" name="q" type="search" placeholder="Search Campgrounds..." aria-label="Search">
+	<button class="btn btn-outline-dark" type="submit">Search</button>
+  </form>
+  
+  <%- include('../partials/flash')%>
 <% for(let campground of campgrounds) {%>
 <div class="card mb-3">
 	<div class="row">
@@ -31,6 +39,7 @@
 </div>
 <%}%>
 
+</div>
 <script>
 	const mapBoxToken = '<%- process.env.MAPBOX_TOKEN  %>' 
 	const campgrounds = {features: <%- JSON.stringify(campgrounds) %>}

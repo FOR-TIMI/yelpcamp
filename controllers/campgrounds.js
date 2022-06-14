@@ -8,8 +8,28 @@ const geoCoder = mbxGeocoding({accessToken: mapboxToken})
 
 
 module.exports.index = async function(req, res){
-    const campgrounds = await Campground.find({});
-    res.render("campgrounds/index", { campgrounds });
+    function escapeRegex(text) {
+        return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
+    };
+    
+    if(req.query.q){
+        const regex = new RegExp(escapeRegex(req.query.q),'gi')
+        const campgrounds = await Campground.find({title: regex});
+
+        if(!campgrounds.length){
+            
+            req.flash("error", "Cannot find that campground ");
+            return res.redirect('/campgrounds')
+        }
+                res.render("campgrounds/index", { campgrounds });
+        
+    }
+    else{
+        const campgrounds = await Campground.find({});
+        res.render("campgrounds/index", { campgrounds });  
+    }
+    
+  
 }
 
 
