@@ -1,0 +1,17 @@
+@media only screen and (max-width: 800px) {
+    .col-6:nth-child(1){
+       flex: 0 0 auto;
+       width: auto;
+       max-width: 100%;
+    }
+
+    .col-6:nth-child(2) {
+        -ms-flex-preferred-size: 0;
+        flex-basis: 0;
+        -ms-flex-positive: 1;
+        flex-grow: 1;
+        max-width: 100%;
+      }
+    
+}
+
