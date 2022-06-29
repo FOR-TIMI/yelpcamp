@@ -23,6 +23,11 @@ router.route("/:id")
 
 router.get("/:id/edit",isLoggedIn,isCreator,catchAsync(campgrounds.editForm));
 
+router.get('/:id/reviews', (req,res) => {
+    const {id} = req.params;
+    res.redirect(`/campgrounds/${id}`);
+})
+
 
 
 
