@@ -21,8 +21,7 @@ API's:
 CSS Framework:
 - Bootstrap
 
-## Contribution
-Made with ❤️ by Timi
+
 
 
 
@@ -32,6 +31,9 @@ Made with ❤️ by Timi
 ![image](https://user-images.githubusercontent.com/104241247/190933408-d53a5d9d-98c9-4931-96cb-15204d10ec9c.png)
 ![image](https://user-images.githubusercontent.com/104241247/190933424-7a5b5c6e-6303-4db5-8a2d-e2baf3cde628.png)
 ![image](https://user-images.githubusercontent.com/104241247/190933436-3e5fa1d3-729f-422d-b0c2-bbb2054b3e23.png)
+
+## Contribution
+Made with ❤️ by Timi
 
 
 
