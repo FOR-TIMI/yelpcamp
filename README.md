@@ -10,7 +10,7 @@ The yelpcamp webapp allows users to upload ther own campground and edit it based
 
 ## URLs
 1. Github repositry link: https://github.com/FOR-TIMI/yelpcamp
-2. Deployed application link: https://powerful-tundra-54624.herokuapp.com/campgrounds
+2. Deployed application link: / work in progress /
 
 
 
