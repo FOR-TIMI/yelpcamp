@@ -3,7 +3,7 @@
 
 ## Description
 
-The yelpcamp webapp allows users to upload ther own campground and edit it based on their preference, view all created campgrounds around the world and thei prices.
+The yelpcamp webapp allows users to upload ther own campground and edit it based on their preference, view all created campgrounds around the world and thei prices built using MVC pattern.
 
 
 
