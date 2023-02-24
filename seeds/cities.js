@@ -1,3 +1,5 @@
+
+//List of cities
 module.exports = [
     {
         city: "New York",
