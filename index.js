@@ -92,6 +92,7 @@ app.use(
         "blob:",
         "data:",
         "https://res.cloudinary.com/yelpcampprojectimages/",
+        "http://res.cloudinary.com/diskudcr3",
         "https://images.unsplash.com/",
       ],
       fontSrc: ["'self'", ...fontSrcUrls],
