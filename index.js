@@ -91,7 +91,7 @@ app.use(
         "'self'",
         "blob:",
         "data:",
-        "http://res.cloudinary.com/diskudcr3",
+        "http://res.cloudinary.com/diskudcr3/",
         // "https://res.cloudinary.com/yelpcampprojectimages/",
         "https://images.unsplash.com/",
       ],
